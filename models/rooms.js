@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.hasMany(models.MessagesRoom); //onDelete: 'SET NULL', onUpdate: 'CASCADE'
-      this.belongsToMany(models.Users, { through: "UsersRooms" });
     }
   }
   Rooms.init(

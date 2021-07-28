@@ -1,6 +1,7 @@
 const MessagesRoom = require("../../models").MessagesRoom;
 const MessagesPersonal = require("../../models").MessagesPersonal;
-const Users = require("../../models").Users;
+
+const fetch = require("node-fetch");
 
 module.exports = function (socket, io) {
   // Mendapatkan semua pesan ketika membuka group
