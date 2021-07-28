@@ -1,0 +1,99 @@
+# @description    Mendapatkan semua group yang diikuti oleh user yang berhasil login.
+# @body           null
+# @param          null
+GET http://localhost:5421/api/room
+
+
+###
+
+
+# @description    Membuat group baru
+# @body           "groupMember" => berisi id user, 
+#                 "name" => berisi nama group.
+# @param          null
+POST http://localhost:5421/api/room/
+Content-Type: application/json
+
+{
+   "groupMember": [2, 3, 4],
+   "name": "Group 5"
+}
+
+
+###
+
+
+# @description    Update spesifik group
+# @body           "name" berisi nama group.
+# @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
+PATCH http://localhost:5421/api/room/:roomId
+Content-Type: application/json
+
+{
+   "name": "Nama group yang baru"
+}
+
+
+###
+
+
+# @description    Menghapus spesifik group
+# @body           null
+# @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
+DELETE http://localhost:5421/api/room/:roomId
+
+
+###
+
+
+# @description    Mendapatkan group berdasarkan id
+# @body           null
+# @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
+GET http://localhost:5421/api/room/:roomId
+
+
+###
+
+
+# @description    Menambahkan list member di dalam spesifik group.
+# @body           null
+# @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
+GET http://localhost:5421/api/room/member/:roomId
+
+
+###
+
+# @description    Menambahkan member baru ke dalam spesifik group.
+# @body           "groupMembers" => berisi array id user
+# @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
+POST http://localhost:5421/api/room/member/:roomId
+Content-Type: application/json
+
+{
+   "groupMembers": [2, 3, 4]
+}
+
+
+###
+
+
+# @description    Menghapus member di dalam spesifik group.
+# @body           "userId" => berisi id user
+# @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
+DELETE http://localhost:5421/api/room/member/:roomId
+Content-Type: application/json
+
+{
+   "userId": 4
+}
+
+
+
+###
+
+
+# GET http://localhost:5421/api/user/dum
+
+# ###
+
+# GET http://localhost:5421/api/room/message/1
