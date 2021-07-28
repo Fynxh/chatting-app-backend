@@ -6,7 +6,7 @@ ReactJS Socket.io Chat Apllication
 
 Use the package manager [NPM](https://nodejs.org/en/) to install Chat-app.
 
-Create MySQL database named db_chatapp.
+Create MySQL database named chatting_app_db.
 
 installing server dependencies:
 
