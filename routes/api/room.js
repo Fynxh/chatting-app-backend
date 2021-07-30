@@ -12,7 +12,6 @@ const { Op } = require("sequelize");
 
 const Rooms = require("../../models").Rooms;
 const UsersRooms = require("../../models").UsersRooms;
-const Users = require("../../models").Users;
 
 // const MessagesRoom = require("../../models").MessagesRoom;
 
@@ -240,7 +239,7 @@ router.post("/member/:roomId", auth, (req, res) => {
       if (!room) return res.status(404).json({ msg: "Room tidak ditemukan!" });
 
       // get member room/group dari request body berupa array yang berisi user_id
-      const groupMembers = req.body.groupMembers;
+      const groupMembers = req.body.groupMember;
 
       const membersInGroup = [];
 
@@ -293,45 +292,5 @@ router.delete("/member/:roomId", auth, (req, res) => {
       res.status(500).json(err);
     });
 });
-
-// router.get("/message/:id", (req, res) => {
-//   const roomId = req.params.id;
-
-//   MessagesRoom.findAll({
-//     where: {
-//       RoomId: roomId,
-//     },
-//   })
-//     .then((message) => {
-//       const msg = message;
-//       // dummy data
-//       const usr = [{ id: 1, nama: "fahmi" }];
-
-//       // Kalau sudah ada api, gunakan code dibawah ini.
-//       // msg.map((item) => {
-//       //    fetch(`https://api.com/user/${item.id}`).then(result => {
-//       //       usr.push(result);
-//       //    }).catch(err => {
-//       //       console.log(err);
-//       //    })
-//       // })
-
-//       const merge = (a1, a2) =>
-//         a1.map((message) => ({
-//           ...a2.find((item) => item.id === message.UserId),
-//           message,
-//         }));
-
-//       // res.status(200).json({
-//       //    message,
-
-//       // })
-
-//       res.json(merge(msg, usr));
-//     })
-//     .catch((err) => {
-//       res.json(err);
-//     });
-// });
 
 module.exports = router;

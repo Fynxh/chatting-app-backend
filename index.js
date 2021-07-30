@@ -7,23 +7,19 @@ const sequelize = require("sequelize");
 const cors = require("cors");
 
 // routes
-const user = require("./routes/api/user");
 const room = require("./routes/api/room");
-// const chat = require("./routes/api/chat")
-
-const io = require("socket.io")(httpServer, {
-  cors: {
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST"],
-    credentials: true,
-  },
-});
-
-// console.log(localStorage.getItem("token"));
 
 app.use(cors());
 // app.use(bodyParser.json());
 app.use(express.json({ limit: "50mb" }));
+
+const io = require("socket.io")(httpServer, {
+  cors: {
+    origin: "*",
+  },
+});
+
+// console.log(localStorage.getItem("token"));
 
 // sequelize connection
 // @database-name    :process.env.DB_NAME
@@ -58,9 +54,7 @@ io.on("connection", (socket) => {
 });
 
 // routes
-app.use("/api/user", user);
 app.use("/api/room", room);
-// app.use("/api/chat/", chat);
 
 sequelizeConnect
   .authenticate()

@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
    "groupMember": [2, 3, 4],
-   "name": "Group 5"
+   "name": "Group 7"
 }
 
 
@@ -26,11 +26,11 @@ Content-Type: application/json
 # @description    Update spesifik group
 # @body           "name" berisi nama group.
 # @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
-PATCH http://localhost:5421/api/room/:roomId
+PATCH http://localhost:5421/api/room/7
 Content-Type: application/json
 
 {
-   "name": "Nama group yang baru"
+   "name": "Nama group yang baru 7"
 }
 
 
@@ -40,7 +40,7 @@ Content-Type: application/json
 # @description    Menghapus spesifik group
 # @body           null
 # @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
-DELETE http://localhost:5421/api/room/:roomId
+DELETE http://localhost:5421/api/room/7
 
 
 ###
@@ -49,16 +49,16 @@ DELETE http://localhost:5421/api/room/:roomId
 # @description    Mendapatkan group berdasarkan id
 # @body           null
 # @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
-GET http://localhost:5421/api/room/:roomId
+GET http://localhost:5421/api/room/6
 
 
 ###
 
 
-# @description    Menambahkan list member di dalam spesifik group.
+# @description    Mendapatkan list member di dalam spesifik group.
 # @body           null
 # @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
-GET http://localhost:5421/api/room/member/:roomId
+GET http://localhost:5421/api/room/member/6
 
 
 ###
@@ -66,11 +66,11 @@ GET http://localhost:5421/api/room/member/:roomId
 # @description    Menambahkan member baru ke dalam spesifik group.
 # @body           "groupMembers" => berisi array id user
 # @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
-POST http://localhost:5421/api/room/member/:roomId
+POST http://localhost:5421/api/room/member/2
 Content-Type: application/json
 
 {
-   "groupMembers": [2, 3, 4]
+   "groupMember": [2, 3, 4]
 }
 
 
@@ -80,7 +80,7 @@ Content-Type: application/json
 # @description    Menghapus member di dalam spesifik group.
 # @body           "userId" => berisi id user
 # @param          :roomId => diganti dengan id group. Contoh: http://localhost:5421/api/room/2
-DELETE http://localhost:5421/api/room/member/:roomId
+DELETE http://localhost:5421/api/room/member/2
 Content-Type: application/json
 
 {
@@ -88,12 +88,4 @@ Content-Type: application/json
 }
 
 
-
 ###
-
-
-# GET http://localhost:5421/api/user/dum
-
-# ###
-
-# GET http://localhost:5421/api/room/message/1

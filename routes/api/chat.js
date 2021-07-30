@@ -2,6 +2,7 @@ const MessagesRoom = require("../../models").MessagesRoom;
 const MessagesPersonal = require("../../models").MessagesPersonal;
 
 const fetch = require("node-fetch");
+const { Op } = require("sequelize");
 
 module.exports = function (socket, io) {
   // Mendapatkan semua pesan ketika membuka group
@@ -16,7 +17,7 @@ module.exports = function (socket, io) {
       },
     })
       .then((msg) => {
-        const msg = msg;
+        const message = msg;
 
         // dummy data
         // jika sidah ada api, kosongkan array nya!
@@ -26,13 +27,15 @@ module.exports = function (socket, io) {
         // Kalau sudah ada api, gunakan code dibawah ini.
         //   Ubah "https://api.com/user/" dengan api untuk mendapatkan user by id. Biarkan ${item.UserId}.
 
-        // msg.map((item) => {
-        //    fetch(`https://api.com/user/${item.UserId}`).then(result => {
-        //       usr.push(result);
-        //    }).catch(err => {
-        //       console.log(err);
-        //    })
-        // })
+        //   message.map((item) => {
+        //     fetch(`http://localhost:5421/api/user/${item.UserId}`)
+        //       .then((result) => {
+        //         usr.push(result);
+        //       })
+        //       .catch((err) => {
+        //         console.log(err);
+        //       });
+        //   });
 
         //   merge array yang berisi user dengan array yang berisi pesan.
         // Mencocokan id yang dimiliki user dengan UserId yang ada pada pesan.
@@ -72,7 +75,7 @@ module.exports = function (socket, io) {
    * }
    *
    */
-  socket.on("sendMessageIntoGroup", (message, callback) => {
+  socket.on("sendMessageIntoGroup", (message) => {
     MessagesRoom.create({
       UserId: message.userId,
       RoomId: message.roomId,
@@ -81,15 +84,12 @@ module.exports = function (socket, io) {
     })
       .then((res) => {
         // find specific message with it's user
-        MessagesRoom.findByPk(res.id, {
-          include: Users,
-        })
+        MessagesRoom.findByPk(res.id)
           .then((msg) => {
             // emit to client
             // io.to(msg.RoomId).emit('message from client', msg);
             socket.emit("message from group", msg);
             socket.broadcast.to(msg.RoomId).emit("message from group", msg);
-            callback(msg);
           })
           .catch((err) => {
             console.log("find message in group Error:", err);
@@ -115,7 +115,7 @@ module.exports = function (socket, io) {
    * }
    *
    */
-  socket.on("sendMessagePersonal", (message, callback) => {
+  socket.on("sendMessagePersonal", (message) => {
     MessagesPersonal.create({
       sender: message.sender,
       receiver: message.receiver,
@@ -123,9 +123,7 @@ module.exports = function (socket, io) {
       file: message.file,
     })
       .then((msg) => {
-        socket.emit("message from personal", msg);
-        socket.broadcast.to(msg.receiver).emit("message from personal", msg);
-        callback(msg);
+        io.emit("message from personal", msg);
       })
       .catch((err) => {
         console.log("sendMessagePeronalError:", err);
@@ -141,12 +139,11 @@ module.exports = function (socket, io) {
   socket.on("getMessagePersonal", (userId) => {
     MessagesPersonal.findAll({
       where: {
-        receiver: userId,
+        [Op.or]: [{ sender: userId }, { receiver: userId }],
       },
     })
       .then((messages) => {
-        socket.emti("messagesPersonal", messages);
-        socket.broadcast.to(userId).emit("messagesPersonal", messages);
+        io.emit("messagesPersonal", messages);
       })
       .catch((err) => {
         console.log("getMessagePersonalError:", err);
