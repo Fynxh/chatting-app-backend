@@ -17,37 +17,9 @@ module.exports = function (socket, io) {
       },
     })
       .then((msg) => {
-        const message = msg;
-
-        // dummy data
-        // jika sidah ada api, kosongkan array nya!
-        const usr = [{ id: 1, nama: "fahmi" }];
-        //   const usr = [];
-
-        // Kalau sudah ada api, gunakan code dibawah ini.
-        //   Ubah "https://api.com/user/" dengan api untuk mendapatkan user by id. Biarkan ${item.UserId}.
-
-        //   message.map((item) => {
-        //     fetch(`http://localhost:5421/api/user/${item.UserId}`)
-        //       .then((result) => {
-        //         usr.push(result);
-        //       })
-        //       .catch((err) => {
-        //         console.log(err);
-        //       });
-        //   });
-
-        //   merge array yang berisi user dengan array yang berisi pesan.
-        // Mencocokan id yang dimiliki user dengan UserId yang ada pada pesan.
-        const merge = (a1, a2) =>
-          a1.map((message) => ({
-            ...a2.find((item) => item.id === message.UserId),
-            message,
-          }));
-
         //  emit ke client
-        socket.emit("messagesRoom", merge(msg, usr));
-        socket.broadcast.to(msg.RoomId).emit("messagesRoom", merge(msg, usr));
+        socket.emit("messagesRoom", msg);
+        socket.broadcast.to(msg.RoomId).emit("messagesRoom", msg);
       })
       .catch((err) => {
         console.log("joinError: ", err);

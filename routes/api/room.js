@@ -13,8 +13,6 @@ const { Op } = require("sequelize");
 const Rooms = require("../../models").Rooms;
 const UsersRooms = require("../../models").UsersRooms;
 
-// const MessagesRoom = require("../../models").MessagesRoom;
-
 /**
  * @route         GET /api/room/
  * @param         null
