@@ -123,7 +123,7 @@ router.patch("/:roomId", auth, (req, res) => {
   const roomId = req.params.roomId;
 
   //   cek apakah nama room yang baru diisi
-  if (!name) return res.json(400).json({ msg: "Nama room diperlukan" });
+  if (!name) return res.status(400).json({ msg: "Nama room diperlukan" });
 
   //   update nama room dengan yang baru
   Rooms.update(
@@ -239,6 +239,9 @@ router.post("/member/:roomId", auth, (req, res) => {
       // get member room/group dari request body berupa array yang berisi user_id
       const groupMembers = req.body.groupMember;
 
+      if (!groupMembers)
+        return res.status(400).json({ msg: "List member baru diperlukan!" });
+
       const membersInGroup = [];
 
       // push setiap user ke membersInGroup
@@ -273,6 +276,9 @@ router.delete("/member/:roomId", auth, (req, res) => {
   // get parameter
   const roomId = req.params.roomId;
   const userId = req.body.userId;
+
+  if (!roomId || !userId)
+    return res.status(404).json({ msg: "User atau group tidak ditemukan" });
 
   //   Menghapus member dengan id === userid yang ada di dalam group dengan id === roomId
   UsersRooms.destroy({
